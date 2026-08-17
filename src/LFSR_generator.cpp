@@ -14,7 +14,6 @@ struct PasswordConfig{
     int total_caractere;
     int nr_separator;
     char separator;
-    int nr_parole;
     
 };
 
@@ -31,21 +30,94 @@ class LFSRPasswordGenerator : public PasswordGenerator{
     }
     int alege_nr_interval(int lfsr, int min_val, int max_val) const {
         if(min_val == max_val) return min_val;
-        return min_val + (lfsr % (max_val - min_val) + 1);
+        return min_val + (lfsr % (max_val - min_val + 1));
     }
     public:
         string generate(const PasswordConfig& config) override{
-        /* u_int16_t lfsr = 0xACE1u; */ // seed initial, aceleasi rezultate constant
-        u_int16_t lfsr = static_cast<u_int16_t>(time(nullptr)); //seedul devine ora actuala in secunde, rezultatele difera de fiecare data
-        int nr_alfabetice = alege_nr_interval(lfsr, config.min_alfabetice, config.max_alfabetice);
-        lfsr = fct_lfsr(lfsr);
-        int nr_numerice = alege_nr_interval(lfsr, config.min_numerice, config.max_numerice);
-        lfsr = fct_lfsr(lfsr);
-        int nr_speciale = config.total_caractere - nr_alfabetice - nr_numerice;
-        }
-    
+            const string litere = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const string cifre = "0123456789";
+            const string speciale = "!\"#$%&'()*+,-./:;<=>?@^_`";
+            string parola = "";
+            int nr_alfabetice = 0;
+            int nr_numerice = 0;
+            int nr_speciale = 0;
+            /* u_int16_t lfsr = 0xACE1u; */ // seed initial, aceleasi rezultate constant
+            u_int16_t lfsr = static_cast<u_int16_t>(time(nullptr)); //seedul devine ora actuala in secunde, rezultatele difera de fiecare data
+            while(true){
+                nr_alfabetice = alege_nr_interval(lfsr, config.min_alfabetice, config.max_alfabetice);
+                lfsr = fct_lfsr(lfsr);
+                nr_numerice = alege_nr_interval(lfsr, config.min_numerice, config.max_numerice);
+                lfsr = fct_lfsr(lfsr);
+                nr_speciale = config.total_caractere - nr_alfabetice - nr_numerice;
+                if(nr_speciale >= config.min_speciale && nr_speciale <= config.max_speciale){
+                    break;
+                }
+            }
+            for(int i = 0; i < nr_alfabetice; i++){
+                lfsr = fct_lfsr(lfsr);
+                char ch = static_cast<char>(litere[lfsr % litere.size()]);
+                parola += ch;
+            }
 
+            for(int i = 0; i < nr_numerice; i++){
+                lfsr = fct_lfsr(lfsr);
+                char ch = static_cast<char>(cifre[lfsr % cifre.size()]);
+                parola += ch;
+            }
+
+            for(int i = 0; i < nr_speciale; i++){
+                lfsr = fct_lfsr(lfsr);
+                char ch = static_cast<char>(speciale[lfsr % speciale.size()]);
+                parola += ch;
+            }
+
+            for (int i = parola.size() - 1; i > 0; i--){
+                lfsr = fct_lfsr(lfsr);
+                int j = lfsr % (i + 1);
+                char temp = parola[i];
+                parola[i] = parola[j];
+                parola[j] = temp;
+            }
+            if(config.nr_separator > 0 && config.separator != '\0'){
+                string parola_cu_separator = "";
+                for(int i=0;i<parola.size();i++){
+                    parola_cu_separator += parola[i];
+                    if((i+1) % config.nr_separator == 0 && (i+1) != parola.size()){
+                        parola_cu_separator += config.separator;
+                    }
+                }
+                parola = parola_cu_separator;
+            }
+            return parola;
+            
+        }
 };
 int main(){
+    PasswordConfig config;
+    cout << "min alfabetice" << '\n';
+    cin >> config.min_alfabetice;
+    cout << "max alfabetice" << '\n';
+    cin >> config.max_alfabetice;
+    cout << "min numerice" << '\n';
+    cin >> config.min_numerice;
+    cout << "max numerice" << '\n';
+    cin >> config.max_numerice;
+    cout << "min speciale" << '\n';
+    cin >> config.min_speciale;
+    cout << "max speciale" << '\n';
+    cin >> config.max_speciale;
+    cout << "total caractere" << '\n';
+    cin >> config.total_caractere;
+    cout << "interval separator" << '\n';
+    cin >> config.nr_separator;
+    config.separator = '-';
 
+    unique_ptr<PasswordGenerator> generator = make_unique<LFSRPasswordGenerator>();
+    string parola = generator->generate(config);
+    cout << "Parola generata:" << parola << '\n';
+    for(int i=0;i<100;i++){
+        generator->generate(config);
+        cout << "Parola nr(" << i << ")" << parola << '\n';
+    }
+    return 0;
 }
