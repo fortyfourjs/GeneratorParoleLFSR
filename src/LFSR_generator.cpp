@@ -1,6 +1,8 @@
 #include <iostream>
 #include <memory>
 #include <vector>
+#include <fstream>
+#include <ctime>
 
 using namespace std;
 
@@ -24,15 +26,20 @@ class PasswordGenerator{
 };
 class LFSRPasswordGenerator : public PasswordGenerator{
     private:
-    u_int16_t fct_lfsr(u_int16_t lfsr){
-        u_int16_t bit = ((lfsr >> 0) ^ (lfsr >> 2) ^ (lfsr >> 3) ^ (lfsr >> 5)) & 1;
-        return (lfsr >> 1) | (bit << 15);
-    }
+        u_int16_t lfsr;
+
+        u_int16_t fct_lfsr(u_int16_t lfsr){
+            u_int16_t bit = ((lfsr >> 0) ^ (lfsr >> 2) ^ (lfsr >> 3) ^ (lfsr >> 5)) & 1;
+            return (lfsr >> 1) | (bit << 15);
+        }
     int alege_nr_interval(int lfsr, int min_val, int max_val) const {
         if(min_val == max_val) return min_val;
         return min_val + (lfsr % (max_val - min_val + 1));
     }
     public:
+        LFSRPasswordGenerator(){
+            lfsr = static_cast<u_int16_t>(time(nullptr));
+        }
         string generate(const PasswordConfig& config) override{
             const string litere = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
             const string cifre = "0123456789";
@@ -41,8 +48,7 @@ class LFSRPasswordGenerator : public PasswordGenerator{
             int nr_alfabetice = 0;
             int nr_numerice = 0;
             int nr_speciale = 0;
-            /* u_int16_t lfsr = 0xACE1u; */ // seed initial, aceleasi rezultate constant
-            u_int16_t lfsr = static_cast<u_int16_t>(time(nullptr)); //seedul devine ora actuala in secunde, rezultatele difera de fiecare data
+            /* u_int16_t lfsr = 0xACE1u; */ // seed initial, aceleasi rezultate constant 
             while(true){
                 nr_alfabetice = alege_nr_interval(lfsr, config.min_alfabetice, config.max_alfabetice);
                 lfsr = fct_lfsr(lfsr);
@@ -52,6 +58,7 @@ class LFSRPasswordGenerator : public PasswordGenerator{
                 if(nr_speciale >= config.min_speciale && nr_speciale <= config.max_speciale){
                     break;
                 }
+                lfsr = fct_lfsr(lfsr);
             }
             for(int i = 0; i < nr_alfabetice; i++){
                 lfsr = fct_lfsr(lfsr);
@@ -92,6 +99,16 @@ class LFSRPasswordGenerator : public PasswordGenerator{
             
         }
 };
+class PasswordSaver{
+    public:
+       static bool saveFile(const string& filename, const string& password){
+          ofstream file(filename, ios::app);
+          if(!file.is_open()) return false;
+          file << password << '\n';
+          return true;
+    }
+
+};
 int main(){
     PasswordConfig config;
     cout << "min alfabetice" << '\n';
@@ -113,11 +130,10 @@ int main(){
     config.separator = '-';
 
     unique_ptr<PasswordGenerator> generator = make_unique<LFSRPasswordGenerator>();
-    string parola = generator->generate(config);
-    cout << "Parola generata:" << parola << '\n';
     for(int i=0;i<100;i++){
-        generator->generate(config);
-        cout << "Parola nr(" << i << ")" << parola << '\n';
+        string parola = generator->generate(config);
+        cout << "Parola nr(" << i << "): " << parola << '\n';
+        PasswordSaver::saveFile("Parole.txt", parola);
     }
     return 0;
 }
