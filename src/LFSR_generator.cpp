@@ -3,27 +3,12 @@
 #include <vector>
 #include <fstream>
 #include <ctime>
+#include "include/passwordconfig.h"
 
 using namespace std;
 
-struct PasswordConfig{
-    int min_alfabetice;
-    int max_alfabetice;
-    int min_numerice;
-    int max_numerice;
-    int min_speciale;
-    int max_speciale;
-    int total_caractere;
-    int nr_separator;
-    char separator;
-    
-};
 
-class PasswordGenerator{
-    public:
-        virtual ~PasswordGenerator() = default;
-        virtual string generate(const PasswordConfig& config) = 0;
-};
+
 class LFSRPasswordGenerator : public PasswordGenerator{
     private:
         u_int16_t lfsr;
