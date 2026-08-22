@@ -11,4 +11,8 @@ struct PasswordConfig{
     int nr_separator;
     char separator;
     
+    bool ValidareParola() const{
+        int suma = min_alfabetice + min_numerice + min_speciale;
+        return (total_caractere >= 6 && suma <= total_caractere);
+    }
 };

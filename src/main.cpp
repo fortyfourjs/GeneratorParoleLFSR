@@ -4,32 +4,36 @@
 #include "LFSRPasswordGenerator.h"
 #include "PasswordConfig.h"
 #include "PasswordSaver.h"
+#include "CitireInput.h"
+#include "ComplexitateParola.h"
 
 
 int main(){
     PasswordConfig config;
-    std::cout << "min alfabetice" << '\n';
-    std::cin >> config.min_alfabetice;
-    std::cout << "max alfabetice" << '\n';
-    std::cin >> config.max_alfabetice;
-    std::cout << "min numerice" << '\n';
-    std::cin >> config.min_numerice;
-    std::cout << "max numerice" << '\n';
-    std::cin >> config.max_numerice;
-    std::cout << "min speciale" << '\n';
-    std::cin >> config.min_speciale;
-    std::cout << "max speciale" << '\n';
-    std::cin >> config.max_speciale;
-    std::cout << "total caractere" << '\n';
-    std::cin >> config.total_caractere;
-    std::cout << "interval separator" << '\n';
-    std::cin >> config.nr_separator;
-    config.separator = '-';
+    while(true){
+        config.min_alfabetice = CitireInput::citesteNumarPozitiv("Minim caractere alfabetice: ");
+        config.max_alfabetice = CitireInput::citesteNumarPozitiv("Maxim caractere alfabetice: ");
+        config.min_numerice = CitireInput::citesteNumarPozitiv("Minim caractere numerice: ");
+        config.max_numerice = CitireInput::citesteNumarPozitiv("Maxim caractere numerice: ");
+        config.min_speciale = CitireInput::citesteNumarPozitiv("Minim caractere speciale: ");
+        config.max_speciale = CitireInput::citesteNumarPozitiv("Maxim caractere speciale: ");
+        config.total_caractere = CitireInput::citesteNumarPozitiv("Total caractere: ");
+        config.nr_separator = CitireInput::citesteNumarPozitiv("Interval separator: ");
+        config.separator = '-';
+        if(config.ValidareParola()){
+            std::cout << "\nConfiguratie valida!";
+            break;
+        }
+        std::cout << "\nEROARE: Suma minimelor depaseste totalul caracterelor sau totalul < 6\n";
+        std::cout << "Reintroduceti datele\n";
+    }
 
     std::unique_ptr<PasswordGenerator> generator = std::make_unique<LFSRPasswordGenerator>();
     for(int i=0;i<100;i++){
         std::string parola = generator->generate(config);
         std::cout << "Parola nr(" << i << "): " << parola << '\n';
+        StrengthLevel nivel = PasswordValidator::evaluateStrength(parola);
+        std::cout << "Complexitate: " << PasswordValidator::strengthToString(nivel) << '\n';
         PasswordSaver::saveFile("Parole.txt", parola);
     }
     return 0;
