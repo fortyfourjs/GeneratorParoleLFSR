@@ -10,15 +10,19 @@ set(CMAKE_AUTOUIC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
-include_directories(include)
+include_directories(include .)
 
 set(SOURCES
-    src/main.cpp 
-    src/CitireInput.cpp 
-    src/ComplexitateParola.cpp 
-    src/LFSRPasswordGenerator.cpp 
+    src/main.cpp
+    src/CitireInput.cpp
+    src/ComplexitateParola.cpp
+    src/LFSRPasswordGenerator.cpp
     src/PasswordSaver.cpp
-    )
+    mainwindow.cpp
+    mainwindow.h
+    mainwindow.ui
+)
+
 add_executable(${PROJECT_NAME} ${SOURCES})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets)
