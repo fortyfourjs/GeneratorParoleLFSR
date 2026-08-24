@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1231</width>
-    <height>616</height>
+    <width>694</width>
+    <height>406</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <widget class="QPushButton" name="btnGenerare">
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>480</y>
+      <x>180</x>
+      <y>280</y>
       <width>151</width>
       <height>41</height>
      </rect>
@@ -27,97 +27,162 @@
      <string>Genereaza Parola</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="txtparola">
+   <widget class="QWidget" name="layoutWidget">
     <property name="geometry">
      <rect>
-      <x>640</x>
-      <y>30</y>
-      <width>301</width>
-      <height>451</height>
+      <x>140</x>
+      <y>40</y>
+      <width>244</width>
+      <height>186</height>
      </rect>
     </property>
-    <property name="text">
-     <string/>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>69</x>
-      <y>120</y>
-      <width>91</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Alfabetice</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>200</y>
-      <width>91</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Numerice</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>280</y>
-      <width>91</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Speciale</string>
-    </property>
-   </widget>
-   <widget class="QWidget" name="">
-    <property name="geometry">
-     <rect>
-      <x>170</x>
-      <y>70</y>
-      <width>301</width>
-      <height>311</height>
-     </rect>
-    </property>
-    <layout class="QGridLayout" name="gridLayout_2">
-     <item row="1" column="0">
-      <widget class="QSpinBox" name="spinTotalCaractere"/>
+    <layout class="QGridLayout" name="gridLayout_3">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_valoareMin">
+       <property name="text">
+        <string>Min</string>
+       </property>
+      </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QSpinBox" name="spinIntervalSeparator"/>
+     <item row="0" column="1">
+      <widget class="QLabel" name="label_valoareMax">
+       <property name="text">
+        <string>Max</string>
+       </property>
+      </widget>
      </item>
-     <item row="0" column="0" colspan="2">
-      <layout class="QGridLayout" name="gridLayout">
-       <item row="2" column="1">
-        <widget class="QSpinBox" name="spinMaxSpeciale"/>
-       </item>
-       <item row="0" column="0">
-        <widget class="QSpinBox" name="spinMinAlfabetice"/>
-       </item>
-       <item row="0" column="1">
-        <widget class="QSpinBox" name="spinMaxAlfabetice"/>
-       </item>
+     <item row="1" column="0" colspan="2">
+      <layout class="QGridLayout" name="gridLayout_2">
        <item row="1" column="0">
-        <widget class="QSpinBox" name="spinMinCifre"/>
+        <widget class="QSpinBox" name="spinTotalCaractere"/>
        </item>
-       <item row="2" column="0">
-        <widget class="QSpinBox" name="spinMinSpeciale"/>
+       <item row="0" column="0" colspan="2">
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="1" column="1">
+          <widget class="QSpinBox" name="spinMaxCifre"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QSpinBox" name="spinMinCifre"/>
+         </item>
+         <item row="0" column="0">
+          <widget class="QSpinBox" name="spinMinAlfabetice"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QSpinBox" name="spinMinSpeciale"/>
+         </item>
+         <item row="0" column="1">
+          <widget class="QSpinBox" name="spinMaxAlfabetice"/>
+         </item>
+         <item row="2" column="1">
+          <widget class="QSpinBox" name="spinMaxSpeciale"/>
+         </item>
+        </layout>
        </item>
        <item row="1" column="1">
-        <widget class="QSpinBox" name="spinMaxCifre"/>
+        <widget class="QSpinBox" name="spinIntervalSeparator"/>
        </item>
       </layout>
      </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_totalCaractere">
+       <property name="text">
+        <string>Total Caractere</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLabel" name="label_intervalSeparator">
+       <property name="text">
+        <string>Interval Separator</string>
+       </property>
+      </widget>
+     </item>
     </layout>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>63</x>
+      <y>70</y>
+      <width>74</width>
+      <height>101</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QLabel" name="label_alfabetice">
+       <property name="text">
+        <string>Alfabetice</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_numerice">
+       <property name="text">
+        <string>Numerice</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_speciale">
+       <property name="text">
+        <string>Speciale</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>230</y>
+      <width>152</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label_nrParole">
+       <property name="text">
+        <string>Nr. Parole</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="spin_nrParole">
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>10000</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QTextEdit" name="txtparola">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>40</y>
+      <width>201</width>
+      <height>261</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btnSalvare">
+    <property name="geometry">
+     <rect>
+      <x>470</x>
+      <y>310</y>
+      <width>131</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Salveaza pe disc</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -125,7 +190,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1231</width>
+     <width>694</width>
      <height>24</height>
     </rect>
    </property>

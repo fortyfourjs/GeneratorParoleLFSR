@@ -13,6 +13,11 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 include_directories(include .)
 
 set(SOURCES
+    include/CitireInput.h
+    include/ComplexitateParola.h
+    include/LFSRPasswordGenerator.h
+    include/PasswordConfig.h
+    include/PasswordGenerator.h
     src/main.cpp
     src/CitireInput.cpp
     src/ComplexitateParola.cpp

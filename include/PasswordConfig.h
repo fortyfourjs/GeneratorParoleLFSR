@@ -9,6 +9,7 @@ struct PasswordConfig{
     int max_speciale;
     int total_caractere;
     int nr_separator;
+    int nr_parole;
     char separator;
     
     bool ValidareParola() const{

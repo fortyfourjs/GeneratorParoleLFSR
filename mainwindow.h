@@ -17,6 +17,7 @@ public:
 
 private slots:
     void on_btnGenerare_clicked();
+    void on_btnSalvare_clicked();
 
 private:
     Ui::MainWindow *ui;
