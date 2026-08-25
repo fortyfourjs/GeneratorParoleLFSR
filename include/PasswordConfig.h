@@ -10,7 +10,7 @@ struct PasswordConfig{
     int total_caractere;
     int nr_separator;
     int nr_parole;
-    char separator;
+    char separator = '-';
     
     bool ValidareParola() const{
         int suma = min_alfabetice + min_numerice + min_speciale;

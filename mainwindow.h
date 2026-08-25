@@ -21,6 +21,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+    void actualizeazaSemafor(const std::string& nivel);
 };
 
 #endif // MAINWINDOW_H
